@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <title>Message Board</title>
+
+        <link rel = "stylesheet"
+        href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity = "sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin = "anonymous">
+
+        <style>
+            #top {
+                padding: 15px;
+                padding-left: 100px;
+                background-color: rgb(146, 235, 194);
+            }
+            h6 {
+                display: inline-block;
+            }
+            p {
+                word-wrap: break-word;
+                padding-left: 15px;
+            }
+            #blackline {
+                background-color: black;
+                height: 3px;
+            }
+            #blueline {
+                background-color: blue;
+                height: 3px;
+            }
+            #main {
+                background-color: rgb(148, 200, 218);
+            }
+            #messagebox {
+                padding: 30px;
+                padding-left: 150px;
+            }
+            #comments {
+                padding: 30px;
+                padding-left: 150px;
+            }
+            #comments h4 {
+                color: rgb(61, 51, 199);
+            }
+            #replies {
+                padding-left: 30px;
+                width: 500px;
+            }
+            #replies h5 {
+                color: rgb(54, 150, 75);
+            }
+        </style>
+    </head>
+    <body>
+        <div id = "top">
+            <h2>Equestria Message Board</h2>
+        </div>
+        <div id = "blackline"></div>
+        <div id = "main">
+            <div id = "messagebox">
+                <% if (messages.comment) { %>
+                    <% for (var x of messages.comment) { %>
+                        <p class = "text-danger"><%= x %></p>
+                    <% } %>
+                <% } %>
+                <form action = "/comment" method = "post">
+                    <h5>Post a comment:</h5>
+                    Name: <br><input type = "text" name = "name"><br>
+                    Comment: <br> <textarea name = "comment" rows = "4" cols = "120"></textarea>
+                    <br>
+                    <input class = "btn btn-info" type = "submit" value = "Post a comment!">
+                    <br>
+                </form>
+            </div>  
+            <div id = "blueline"></div>
+            <div id = "comments">
+                <% if (messages.reply) { %>
+                    <% for (var x of messages.reply) { %>
+                        <p class = "text-danger"><%= x %></p>
+                    <% } %>
+                <% } %>
+                <% for (var comment of comments) { %>
+                    <h4>Name: <%= comment.name %></h4>
+                    <p><%= comment.comment %></p>
+
+                    <div id = "replies">
+                        <% for (var reply of comment.replies) { %>
+                            <h5>Name: <%= reply.name %></h5>
+                            <p><%= reply.reply %></p>
+                        <% } %>
+                        <form action = "/reply/<%= comment.id %>" method = "post">
+                            Name: <br><input type = "text" name = "name"><br>
+                            Reply: <br><textarea name = "reply" rows = "3" cols = "80"></textarea>
+                            <br><br>
+                            <input class = "btn btn-success" type = "submit" value = "Post a reply!">
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </body>
+</html>
